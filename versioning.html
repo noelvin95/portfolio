@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Artifact Versioning — Case Study · Noel Vincent</title>
+<meta name="description" content="Designing artifact versioning in IBM Knowledge Catalog — change people can trust. UX case study by Noel Vincent." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#FBF6EF;--paper-deep:#F3EADD;--ink:#2A1F1A;--ink-soft:#6B5D52;--muted:#8A857A;
+    --line:rgba(26,26,23,.10);--slate:#5E8B7E;--ochre:#E8A13A;--clay:#D98B7A;--teal:#5E8B7E;
+    --glass:rgba(255,255,255,.45);--shadow:0 1px 2px rgba(26,26,23,.04),0 8px 30px rgba(26,26,23,.06);
+    --maxw:880px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--ochre);color:#fff}
+  a{color:inherit}
+  img,video{max-width:100%;display:block}
+  body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E")}
+  .stage{position:relative;z-index:2}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .wc{position:absolute;border-radius:50%;filter:blur(40px);opacity:.35;pointer-events:none;z-index:0}
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(12px);background:linear-gradient(to bottom,rgba(251,248,243,.9),rgba(251,248,243,.5));border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1180px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:17px}
+  .brand .dot{width:24px;height:24px;border-radius:7px;background:radial-gradient(circle at 30% 30%,var(--ochre),transparent 60%),radial-gradient(circle at 70% 70%,var(--clay),transparent 55%),linear-gradient(135deg,var(--slate),var(--teal));box-shadow:inset 0 1px 3px rgba(255,255,255,.5),inset 0 -2px 6px rgba(26,26,23,.2)}
+  .back{font-size:14.5px;color:var(--ink-soft);text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+  .back:hover{color:var(--ink)}
+  header{padding:150px 0 50px;position:relative;overflow:hidden}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:26px}
+  .eyebrow .spark{width:7px;height:7px;border-radius:50%;background:var(--ochre);box-shadow:0 0 0 4px rgba(201,154,78,.18)}
+  h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,5.5vw,60px);line-height:1.06;letter-spacing:-.02em;max-width:16ch}
+  h1 em{font-style:normal;color:var(--ochre)}
+  .lede{margin-top:28px;font-size:20px;line-height:1.6;color:var(--ink-soft);max-width:60ch}
+  .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin:48px 0 8px;padding:28px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  @media(max-width:680px){.meta{grid-template-columns:repeat(2,1fr);gap:20px}}
+  .meta dt{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .meta dd{font-size:15.5px;font-weight:500}
+  .tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+  .tag{font-size:13px;color:var(--ink-soft);background:var(--paper-deep);border:1px solid var(--line);padding:6px 13px;border-radius:100px}
+  .media{margin:46px 0;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:linear-gradient(135deg,#f7f2e9,#ece2d2)}
+  .media .ph{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--muted);text-align:center;padding:24px}
+  .media .ph .lab{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.08em}
+  section.body{padding:30px 0}
+  .sec{margin:46px 0}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ochre);margin-bottom:14px}
+  .sec h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.015em;margin-bottom:18px;line-height:1.15}
+  .sec p{margin-bottom:18px;color:var(--ink-soft)}
+  .sec p strong{color:var(--ink);font-weight:600}
+  .fill{background:rgba(201,154,78,.14);border:1px dashed var(--ochre);border-radius:8px;padding:2px 8px;color:var(--ink-soft);font-size:15px}
+  .note{background:var(--paper-deep);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:20px 0;font-size:15px;color:var(--ink-soft)}
+  .note b{color:var(--ink)}
+  .nextcta{margin:60px 0;padding:40px;border-radius:22px;background:linear-gradient(135deg,#1f1f1b,#2c2b25);color:var(--paper);text-align:center}
+  .nextcta h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:300;font-size:28px;margin-bottom:18px}
+  .nextcta a{display:inline-flex;align-items:center;gap:8px;background:var(--paper);color:var(--ink);padding:13px 22px;border-radius:100px;text-decoration:none;font-weight:500;font-size:15px}
+  footer{padding:40px 0 60px;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  :focus-visible{outline:2.5px solid var(--slate);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="stage">
+<nav>
+  <div class="nav-in">
+    <a href="index.html" class="brand"><span class="dot"></span> Noel Vincent</a>
+    <a href="index.html#work" class="back">← All work</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wc" style="width:420px;height:420px;background:var(--ochre);left:-140px;top:60px"></div>
+  <div class="wc" style="width:360px;height:360px;background:var(--clay);right:-120px;top:120px;opacity:.28"></div>
+  <div class="wrap">
+    <div class="eyebrow"><span class="spark"></span> IBM Knowledge Catalog · Case study 04</div>
+    <h1>Artifact versioning — change people can <em>trust</em></h1>
+    <p class="lede">In a governed catalogue, the meaning of a term doesn't stay still — it gets refined, corrected, re-approved. People need to see what changed, when, and why, without ever losing the old truth. This was about designing how versioning works inside IBM Knowledge Catalog.</p>
+
+    <dl class="meta">
+      <div><dt>My role</dt><dd>Lead UX Designer</dd></div>
+      <div><dt>Platform</dt><dd>IBM IKC / watsonx.DI</dd></div>
+      <div><dt>Timeline</dt><dd><span class="fill">[ add ]</span></dd></div>
+      <div><dt>Status</dt><dd>Live in production</dd></div>
+    </dl>
+    <div class="tags">
+      <span class="tag">Governance</span>
+      <span class="tag">Version history</span>
+      <span class="tag">Approval flow</span>
+      <span class="tag">IBM Design Thinking</span>
+    </div>
+  </div>
+</header>
+
+<section class="body">
+  <div class="wrap">
+
+    <div class="note">
+      <b>Noel — this page is a frame, not a finished case study.</b> I built the structure and an honest intro from what's public (IBM Knowledge Catalog artifact versioning), but I didn't have the real detail of your version. Fill the <span class="fill">[ marked spots ]</span> with what you actually did, and delete this note. Same five-part shape as the Governance one so they feel like a set.
+    </div>
+
+    <div class="media">
+      <video controls preload="metadata" poster="images/versioning-poster.jpg">
+        <source src="images/versioning-summary.mp4" type="video/mp4">
+      </video>
+      <div class="ph">
+        <span class="lab">▶  Summary</span>
+        <span style="font-size:13px">Drop a clip at <code>images/versioning-summary.mp4</code> (or remove this block)</span>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="kicker">My role</div>
+      <h2>What I did here</h2>
+      <p><span class="fill">[ A couple of lines, your voice — what you owned on versioning. e.g. led the flow design, ran the research, partnered with engineering on what was feasible. ]</span></p>
+    </div>
+
+    <div class="sec">
+      <div class="kicker">Research</div>
+      <h2>The problem we were really solving</h2>
+      <p>When a business term's definition changes in a governed catalogue, that's not a small edit — downstream, people and systems are relying on the old meaning. The risk is real: a wrong or silently-changed definition can mean the wrong people trust the wrong number, or get access they shouldn't.</p>
+      <p><span class="fill">[ What did you learn from users / stewards about how they deal with change today? Where did it hurt? ]</span></p>
+    </div>
+
+    <div class="sec">
+      <div class="kicker">Strategy</div>
+      <h2>How we approached it</h2>
+      <p><span class="fill">[ The core idea of your versioning design — how someone sees history, compares versions, restores or supersedes, and how approvals fit in. 2–3 short paragraphs in your voice. ]</span></p>
+    </div>
+
+    <div class="sec">
+      <div class="kicker">Delivery</div>
+      <h2>What shipped</h2>
+      <p><span class="fill">[ What went into production, who it's for, anything you coordinated across squads. ]</span></p>
+    </div>
+
+    <div class="sec">
+      <div class="kicker">Reflection</div>
+      <h2>What I took from it</h2>
+      <p><span class="fill">[ One honest takeaway — the thing that was harder or more interesting than expected. ]</span></p>
+    </div>
+
+    <div class="nextcta">
+      <h3>Want the full walkthrough?</h3>
+      <a href="index.html#contact">Get in touch ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Noel Vincent · Lead UX Designer, Data &amp; AI — IBM Software Labs · Kochi, India</div>
+</footer>
+</div>
+<script>
+  var v=document.querySelector('.media video');
+  if(v){v.addEventListener('error',function(){v.style.display='none'});}
+</script>
+</body>
+</html>

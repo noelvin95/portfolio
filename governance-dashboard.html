@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Governance Dashboard — Case Study · Noel Vincent</title>
+<meta name="description" content="A governance intelligence dashboard for IBM watsonx.DI — giving the CDO a single view of data governance health. UX case study by Noel Vincent." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#FBF6EF;--paper-deep:#F3EADD;--ink:#2A1F1A;--ink-soft:#6B5D52;--muted:#8A857A;
+    --line:rgba(26,26,23,.10);--slate:#5E8B7E;--ochre:#E8A13A;--clay:#D98B7A;--teal:#5E8B7E;
+    --glass:rgba(255,255,255,.45);--shadow:0 1px 2px rgba(26,26,23,.04),0 8px 30px rgba(26,26,23,.06);
+    --maxw:880px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--ochre);color:#fff}
+  a{color:inherit}
+  img,video{max-width:100%;display:block}
+  body::before{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E")}
+  .stage{position:relative;z-index:2}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .wc{position:absolute;border-radius:50%;filter:blur(40px);opacity:.35;pointer-events:none;z-index:0}
+
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(12px);background:linear-gradient(to bottom,rgba(251,248,243,.9),rgba(251,248,243,.5));border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1180px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Bricolage Grotesque',sans-serif;font-weight:500;font-size:17px}
+  .brand .dot{width:24px;height:24px;border-radius:7px;background:radial-gradient(circle at 30% 30%,var(--ochre),transparent 60%),radial-gradient(circle at 70% 70%,var(--clay),transparent 55%),linear-gradient(135deg,var(--slate),var(--teal));box-shadow:inset 0 1px 3px rgba(255,255,255,.5),inset 0 -2px 6px rgba(26,26,23,.2)}
+  .back{font-size:14.5px;color:var(--ink-soft);text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+  .back:hover{color:var(--ink)}
+
+  header{padding:150px 0 50px;position:relative;overflow:hidden}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);margin-bottom:26px}
+  .eyebrow .spark{width:7px;height:7px;border-radius:50%;background:var(--clay);box-shadow:0 0 0 4px rgba(181,116,106,.18)}
+  h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,5.5vw,60px);line-height:1.06;letter-spacing:-.02em;max-width:16ch}
+  h1 em{font-style:normal;color:var(--clay)}
+  .lede{margin-top:28px;font-size:20px;line-height:1.6;color:var(--ink-soft);max-width:60ch}
+
+  .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin:48px 0 8px;padding:28px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  @media(max-width:680px){.meta{grid-template-columns:repeat(2,1fr);gap:20px}}
+  .meta dt{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .meta dd{font-size:15.5px;font-weight:500}
+  .tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+  .tag{font-size:13px;color:var(--ink-soft);background:var(--paper-deep);border:1px solid var(--line);padding:6px 13px;border-radius:100px}
+
+  .media{margin:46px 0;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:linear-gradient(135deg,#f6f1e8,#e9e0d2);position:relative}
+  .media video{width:100%;display:block}
+  .media .ph{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:var(--muted);text-align:center;padding:24px}
+  .media .ph .lab{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.08em}
+  .cap{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--muted);margin-top:12px;text-align:center}
+
+  section.body{padding:30px 0}
+  .sec{margin:46px 0}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin-bottom:14px}
+  .sec h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.015em;margin-bottom:18px;line-height:1.15}
+  .sec p{margin-bottom:18px;color:var(--ink-soft)}
+  .sec p strong{color:var(--ink);font-weight:600}
+  .sec ul{list-style:none;display:flex;flex-direction:column;gap:12px;margin:8px 0 18px}
+  .sec li{padding-left:24px;position:relative;color:var(--ink-soft)}
+  .sec li::before{content:"";position:absolute;left:2px;top:11px;width:7px;height:7px;border-radius:2px;background:var(--ochre)}
+  .pull{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-style:normal;font-size:clamp(22px,3.2vw,30px);line-height:1.3;color:var(--ink);margin:40px 0;padding-left:24px;border-left:3px solid var(--clay)}
+
+  .nextcta{margin:60px 0;padding:40px;border-radius:22px;background:linear-gradient(135deg,#1f1f1b,#2c2b25);color:var(--paper);text-align:center}
+  .nextcta h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:300;font-size:28px;margin-bottom:18px}
+  .nextcta a{display:inline-flex;align-items:center;gap:8px;background:var(--paper);color:var(--ink);padding:13px 22px;border-radius:100px;text-decoration:none;font-weight:500;font-size:15px}
+
+  footer{padding:40px 0 60px;text-align:center;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  :focus-visible{outline:2.5px solid var(--slate);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="stage">
+<nav>
+  <div class="nav-in">
+    <a href="index.html" class="brand"><span class="dot"></span> Noel Vincent</a>
+    <a href="index.html#work" class="back">← All work</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wc" style="width:420px;height:420px;background:var(--slate);left:-140px;top:60px"></div>
+  <div class="wc" style="width:360px;height:360px;background:var(--ochre);right:-120px;top:120px;opacity:.28"></div>
+  <div class="wrap">
+    <div class="eyebrow"><span class="spark"></span> IBM watsonx.DI · Case study 01</div>
+    <h1>A governance dashboard built for the <em>boardroom</em></h1>
+    <p class="lede">The governance teams were already doing the hard work — cataloguing assets, enforcing policies, running quality checks. But when the CDO had to walk into a board meeting, there was no single place to actually show whether the data estate was healthy. This project was about fixing exactly that.</p>
+
+    <dl class="meta">
+      <div><dt>My role</dt><dd>Lead UX Designer</dd></div>
+      <div><dt>Platform</dt><dd>IBM IKC / watsonx.DI</dd></div>
+      <div><dt>Timeline</dt><dd>2025 – 2026</dd></div>
+      <div><dt>Status</dt><dd>Live in production</dd></div>
+    </dl>
+    <div class="tags">
+      <span class="tag">IBM Design Thinking</span>
+      <span class="tag">AI-powered dashboard</span>
+      <span class="tag">CDO persona</span>
+      <span class="tag">Role-based access</span>
+      <span class="tag">Multi-squad coordination</span>
+      <span class="tag">Figma</span>
+    </div>
+  </div>
+</header>
+
+<section class="body">
+  <div class="wrap">
+
+    <!-- VIDEO: replace src with your own exported summary clip in images/ -->
+    <div class="media">
+      <video controls preload="metadata" poster="images/governance-poster.jpg">
+        <source src="images/governance-summary.mp4" type="video/mp4">
+      </video>
+      <div class="ph" id="vidph">
+        <span class="lab">▶  Summary · 1:34</span>
+        <span style="font-size:13px">Drop your summary clip at <code>images/governance-summary.mp4</code></span>
+      </div>
+    </div>
+    <p class="cap">Summary walkthrough · 1:34</p>
+
+    <div class="sec">
+      <div class="kicker">My role</div>
+      <h2>What I actually did here</h2>
+      <p>I led the UX for this one — from the early research sessions right through to the screens that shipped. A lot of the job was the in-between work nobody sees: getting business and engineering into the same room, pulling apart what people <em>said</em> they wanted versus what they actually needed, and keeping the design honest across multiple squads who all had a stake in it. We ran it through IBM Design Thinking, so there was a steady rhythm of research, sketch, critique, repeat.</p>
+    </div>
+
+    <div class="sec">
+      <div class="kicker">Research</div>
+      <h2>Starting from a real gap, not a feature request</h2>
+      <p>This didn't begin as “build a dashboard.” It began as a problem we kept hearing: the governance work was happening, but its <strong>value was invisible</strong> at the leadership level. A CDO could not, in one glance, answer “is our data in good shape?” — and that's the exact question they get asked in a board meeting.</p>
+      <p>So we spent real time with the people who'd live in this thing. What does a CDO actually care about? What's noise to them? Where do they currently go digging, and how painful is it? That shaped everything — the dashboard had to speak in outcomes a leader trusts, not in the raw plumbing the governance teams work with day to day.</p>
+    </div>
+
+    <div class="pull">“Is our data healthy?” sounds like a simple question. Giving someone a single, trustworthy place to answer it — that was the whole design problem.</div>
+
+    <div class="sec">
+      <div class="kicker">Strategy</div>
+      <h2>One view, but not one-size-fits-all</h2>
+      <p>The big call early on was that this couldn't be a flat dashboard everyone sees the same way. A CDO, a data steward, and an engineer are looking for very different things. So we built it around <strong>role-based access</strong> — same source of truth, but the view reshapes itself around who's looking and what they're responsible for.</p>
+      <p>We also leaned into the AI side carefully. The point was never “let the AI decide” — it was to surface what needs attention and let the human stay in control. Same principle I bring to all my Data &amp; AI work: the system proposes, the expert decides.</p>
+      <ul>
+        <li>A clear top-level read on governance health — the thing a leader can show without translating it first.</li>
+        <li>Role-based views so each person lands on what's theirs, without drowning in everyone else's data.</li>
+        <li>AI-surfaced signals that point you to what's slipping, before it becomes a problem downstream.</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <div class="kicker">Delivery</div>
+      <h2>Getting it shipped, across squads</h2>
+      <p>A lot of the craft here was coordination. This touched several squads, so a big part of my job was keeping the design coherent when many hands were on it — shared patterns, weekly critiques, and a lot of translating between “what the business asked for” and “what we can actually build well.”</p>
+      <p>It went live as part of IBM's <strong>Governance Insights</strong> public preview — so this isn't a concept sitting in a Figma file, it's running in production and in front of real customers.</p>
+    </div>
+
+    <div class="sec">
+      <div class="kicker">Reflection</div>
+      <h2>What I took from it</h2>
+      <p>The thing I keep coming back to: the hardest part wasn't the visual design, it was getting everyone to agree on <em>what “healthy” even means</em> for a data estate. Once that was clear, the screens almost designed themselves. Good enterprise UX is mostly about earning that shared definition first — the pixels come after.</p>
+    </div>
+
+    <div class="nextcta">
+      <h3>Want the full walkthrough?</h3>
+      <a href="index.html#contact">Get in touch ↗</a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Noel Vincent · Lead UX Designer, Data &amp; AI — IBM Software Labs · Kochi, India</div>
+</footer>
+</div>
+<script>
+  // hide placeholder if the real video loads
+  var v=document.querySelector('.media video');
+  var ph=document.getElementById('vidph');
+  if(v){v.addEventListener('loadeddata',function(){ph.style.display='none'});
+    v.addEventListener('error',function(){v.style.display='none'});}
+</script>
+</body>
+</html>
