@@ -10,9 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --cream:#F6F8FA;--cream-deep:#E9EEF2;--ink:#1E2A32;--ink-soft:#4F5E68;--muted:#8597A3;
-    --line:rgba(30,42,50,.10);--terra:#2D6E8E;--marigold:#5B9279;--sage:#7A9CB6;--blush:#6B7A99;--plum:#3F5A6B;
-    --shadow:0 2px 8px rgba(30,42,50,.06),0 18px 50px rgba(30,42,50,.10);--maxw:1200px;
+    --cream:#FBF6EF;--cream-deep:#F3EADD;--ink:#2A1F1A;--ink-soft:#6B5D52;--muted:#9B8B7C;
+    --line:rgba(42,31,26,.10);--terra:#D2602E;--marigold:#E8A13A;--sage:#5E8B7E;--blush:#D98B7A;--plum:#8A5A6B;
+    --shadow:0 2px 8px rgba(42,31,26,.06),0 18px 50px rgba(42,31,26,.10);--maxw:1200px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -22,7 +22,7 @@
   img{max-width:100%;display:block}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px}
 
-  nav{position:fixed;top:0;left:0;right:0;z-index:60;backdrop-filter:blur(10px);background:linear-gradient(to bottom,rgba(251,246,239,.92),rgba(251,246,239,.5));border-bottom:1px solid transparent;transition:border-color .3s}
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;backdrop-filter:blur(10px);background:linear-gradient(to bottom,rgba(255,255,255,.92),rgba(255,255,255,.6));border-bottom:1px solid transparent;transition:border-color .3s}
   nav.scrolled{border-bottom-color:var(--line)}
   .nav-in{max-width:var(--maxw);margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between}
   .brand{display:flex;align-items:center;gap:11px;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em}
@@ -32,7 +32,7 @@
   .nav-links a:hover{color:var(--ink)}
   .nav-links a:not(.nav-cta)::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:2px;background:var(--terra);transform:scaleX(0);transform-origin:left;transition:transform .3s}
   .nav-links a:not(.nav-cta):hover::after{transform:scaleX(1)}
-  .nav-cta{padding:9px 18px;border-radius:100px;background:var(--ink);color:var(--cream)!important;font-weight:600;transition:transform .2s}
+  .nav-cta{padding:9px 18px;border-radius:100px;background:var(--terra);color:#fff!important;font-weight:600;transition:transform .2s}
   .nav-cta:hover{transform:translateY(-2px)}
   @media(max-width:720px){.nav-links a:not(.nav-cta){display:none}}
 
@@ -47,10 +47,10 @@
   .hero-sub b{color:var(--ink);font-weight:600}
   .hero-cta{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
   .btn{display:inline-flex;align-items:center;gap:9px;padding:15px 26px;border-radius:100px;font-weight:600;font-size:15px;transition:transform .2s,box-shadow .25s}
-  .btn-primary{background:var(--terra);color:#fff;box-shadow:0 8px 24px rgba(45,110,142,.3)}
-  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(45,110,142,.4)}
-  .btn-ghost{border:1.5px solid var(--ink);color:var(--ink)}
-  .btn-ghost:hover{background:var(--ink);color:var(--cream);transform:translateY(-3px)}
+  .btn-primary{background:var(--terra);color:#fff;box-shadow:0 8px 24px rgba(210,96,46,.3)}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(210,96,46,.4)}
+  .btn-ghost{border:1.5px solid var(--ink-soft);color:var(--ink)}
+  .btn-ghost:hover{background:var(--ink);color:#fff;transform:translateY(-3px)}
   .btn .ar{transition:transform .25s}
   .btn:hover .ar{transform:translate(3px,-3px)}
 
@@ -59,7 +59,7 @@
   @keyframes bloomIn{from{opacity:0;transform:translate(0,0) scale(.3) rotate(var(--r0,0deg))}to{opacity:1;transform:translate(var(--tx,0),var(--ty,0)) scale(1) rotate(var(--r1,0deg))}}
   .float{animation:floatY 6s ease-in-out infinite alternate}
   @keyframes floatY{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-14px) rotate(-3deg)}}
-  .photo-card{position:relative;z-index:5;width:300px;height:380px;border-radius:24px;overflow:hidden;box-shadow:0 30px 70px rgba(30,42,50,.22);border:5px solid #fff;transform:rotate(-3deg)}
+  .photo-card{position:relative;z-index:5;width:300px;height:380px;border-radius:24px;overflow:hidden;box-shadow:0 30px 70px rgba(42,31,26,.22);border:5px solid #fff;transform:rotate(-3deg)}
   .photo-card img{width:100%;height:100%;object-fit:cover}
   .photo-tag{position:absolute;z-index:6;bottom:30px;left:calc(50% - 150px - 10px);background:var(--ink);color:var(--cream);font-family:'IBM Plex Mono',monospace;font-size:12px;padding:9px 15px;border-radius:100px;transform:rotate(-3deg);box-shadow:var(--shadow)}
 
@@ -78,7 +78,7 @@
   .work-list{display:flex;flex-direction:column}
   .work-row{display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center;padding:34px 8px;border-top:1px solid var(--line);position:relative;transition:padding-left .3s}
   .work-row:last-child{border-bottom:1px solid var(--line)}
-  .work-row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,rgba(45,110,142,.08),transparent);transition:width .35s;z-index:0}
+  .work-row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,rgba(210,96,46,.08),transparent);transition:width .35s;z-index:0}
   .work-row:hover::before{width:100%}
   .work-row>*{position:relative;z-index:1}
   .work-row:hover{padding-left:20px}
@@ -87,7 +87,7 @@
   .wr-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(24px,3.5vw,38px);letter-spacing:-.02em;line-height:1.05}
   .wr-desc{font-size:15.5px;color:var(--ink-soft);max-width:60ch}
   .wr-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-  .wr-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--terra);background:rgba(45,110,142,.09);padding:4px 10px;border-radius:6px}
+  .wr-tag{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--terra);background:rgba(210,96,46,.09);padding:4px 10px;border-radius:6px}
   .wr-arrow{width:54px;height:54px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:20px;transition:all .3s;flex-shrink:0}
   .work-row:hover .wr-arrow{background:var(--terra);border-color:var(--terra);color:#fff;transform:rotate(-45deg)}
 
@@ -120,16 +120,16 @@
   .skills{display:flex;flex-wrap:wrap;gap:11px;margin-top:40px}
   .skill{font-size:13.5px;color:var(--ink-soft);padding:9px 16px;border-radius:100px;background:var(--cream-deep);border:1px solid var(--line);font-family:'IBM Plex Mono',monospace}
 
-  .contact{position:relative;border-radius:34px;padding:90px 56px;text-align:center;overflow:hidden;background:var(--ink);color:var(--cream)}
+  .contact{position:relative;border-radius:34px;padding:90px 56px;text-align:center;overflow:hidden;background:linear-gradient(135deg,#2A1F1A,#3A2A22);color:var(--cream)}
   .contact h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(38px,6.5vw,82px);letter-spacing:-.04em;line-height:.95;position:relative;z-index:3}
   .contact h2 em{font-style:normal;color:var(--marigold)}
-  .contact p{margin:26px auto 0;max-width:44ch;color:rgba(251,246,239,.7);font-size:18px;position:relative;z-index:3}
+  .contact p{margin:26px auto 0;max-width:44ch;color:rgba(255,255,255,.72);font-size:18px;position:relative;z-index:3}
   .contact-links{margin-top:42px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative;z-index:3}
   .c-btn{display:inline-flex;align-items:center;gap:9px;padding:15px 26px;border-radius:100px;font-weight:600;font-size:15px;transition:transform .2s}
   .c-btn.solid{background:var(--terra);color:#fff}
   .c-btn.solid:hover{transform:translateY(-3px)}
-  .c-btn.outline{border:1.5px solid rgba(251,246,239,.3);color:var(--cream)}
-  .c-btn.outline:hover{background:rgba(251,246,239,.1);transform:translateY(-3px)}
+  .c-btn.outline{border:1.5px solid rgba(255,255,255,.3);color:#fff}
+  .c-btn.outline:hover{background:rgba(255,255,255,.1);transform:translateY(-3px)}
   .contact .cpetal{position:absolute;opacity:.5;z-index:1}
 
   footer{padding:50px 0 60px;text-align:center;color:var(--muted);font-size:14px}
@@ -148,7 +148,7 @@
     <a href="#top" class="brand"><span class="mk"></span> Noel Vincent</a>
     <div class="nav-links">
       <a href="#work">Work</a>
-      <a href="#craft">Beyond</a>
+      <a href="#craft">Outside work</a>
       <a href="#experience">Experience</a>
       <a href="https://www.behance.net/noelvin95" target="_blank" rel="noopener">Behance ↗</a>
       <a href="#contact" class="nav-cta">Get in touch</a>
@@ -161,8 +161,8 @@
     <div class="hero-grid">
       <div>
         <div class="eyebrow"><span class="d"></span> Lead UX Designer · Data &amp; AI · IBM</div>
-        <h1 class="hero">Where data<br>comes <span class="bloom">into bloom</span>.</h1>
-        <p class="hero-sub">I'm Noel — a designer who turns <b>dense, high-stakes enterprise data</b> into something people actually understand. A decade across IBM and Cognizant. Based in Kochi, India.</p>
+        <h1 class="hero">I design <span class="bloom">clear</span> enterprise software.</h1>
+        <p class="hero-sub">I'm Noel — a UX designer who makes <b>complex data tools simple to use</b>. Ten years at IBM and Cognizant. Based in Kochi, India.</p>
         <div class="hero-cta">
           <a href="#work" class="btn btn-primary">See the work <span class="ar">↗</span></a>
           <a href="#contact" class="btn btn-ghost">Get in touch</a>
@@ -172,7 +172,7 @@
         <div class="photo-card float">
           <img src="noel.jpg" alt="Noel Vincent" />
         </div>
-        <div class="photo-tag">Noel · Kochi 🌸</div>
+        <div class="photo-tag">Noel · Kochi</div>
       </div>
     </div>
   </div>
@@ -231,12 +231,12 @@
 
 <section id="craft">
   <div class="wrap">
-    <div class="sec-label"><span class="num">02</span><h2>Beyond the screen</h2><span class="rule"></span></div>
+    <div class="sec-label"><span class="num">02</span><h2>Outside work</h2><span class="rule"></span></div>
     <div class="craft-wrap">
       <div class="craft-copy">
-        <h3>The flowers on my shirt aren't an <em>accident</em>.</h3>
-        <p>I paint in watercolour and pour resin jewellery — trapping pigment, petals, and flecks of gold mid-set. It's the same instinct I bring to work: take something fluid and unruly, and hold it still long enough to be understood.</p>
-        <p>Colour, light, edge, restraint — the craft keeps my eye honest, and it shows up in every screen I ship.</p>
+        <h3>What I do <em>outside</em> work.</h3>
+        <p>I paint with watercolours and make resin jewellery. Hands-on, detail-focused work — the same care I bring to design.</p>
+        <p>It keeps my eye sharp for colour, balance, and detail, and that shows up in every screen I build.</p>
         <div class="craft-tags">
           <span class="craft-tag"><span class="sw" style="background:var(--terra)"></span> Watercolour</span>
           <span class="craft-tag"><span class="sw" style="background:var(--sage)"></span> Resin jewellery</span>
@@ -296,8 +296,8 @@
 <section id="contact">
   <div class="wrap">
     <div class="contact">
-      <h2>Let's grow<br>something <em>together</em>.</h2>
-      <p>Open to enterprise UX, Data &amp; AI product design, and the occasional beautifully complex problem. Kochi — working with teams anywhere.</p>
+      <h2>Let's work <em>together</em>.</h2>
+      <p>Open to enterprise UX and Data & AI design roles. Based in Kochi, working with teams anywhere.</p>
       <div class="contact-links">
         <a class="c-btn solid" href="mailto:noelvin95@gmail.com">Email me ↗</a>
         <a class="c-btn outline" href="https://www.linkedin.com/in/noel-vincent" target="_blank" rel="noopener">LinkedIn</a>
@@ -318,7 +318,7 @@
   (function(){
     const stage=document.getElementById('bloomStage');
     if(!stage) return;
-    const colors=['#2D6E8E','#5B9279','#7A9CB6','#6B7A99','#3F5A6B'];
+    const colors=['#D2602E','#E8A13A','#5E8B7E','#D98B7A','#8A5A6B'];
     function petal(c){return '<svg viewBox="0 0 100 100" width="100%" height="100%"><path d="M50 4 C70 28 86 44 50 96 C14 44 30 28 50 4 Z" fill="'+c+'"/></svg>';}
     function leaf(c){return '<svg viewBox="0 0 100 100" width="100%" height="100%"><path d="M16 84 C24 30 60 12 88 16 C84 56 50 88 16 84 Z" fill="'+c+'"/><path d="M22 80 C44 56 70 32 84 22" stroke="rgba(255,255,255,.5)" stroke-width="2.5" fill="none"/></svg>';}
     const blooms=[
@@ -340,7 +340,7 @@
       el.style.setProperty('--r1',b.r+'deg');
       el.style.animationDelay=(0.3+i*0.08)+'s';
       el.style.zIndex='1';
-      el.style.filter='drop-shadow(0 6px 12px rgba(30,42,50,.12))';
+      el.style.filter='drop-shadow(0 6px 12px rgba(42,31,26,.12))';
       el.innerHTML=b.leaf?leaf(colors[i%colors.length]):petal(colors[i%colors.length]);
       stage.appendChild(el);
     });
